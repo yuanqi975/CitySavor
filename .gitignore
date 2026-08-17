@@ -34,3 +34,9 @@ build/
 
 # Local isolated worktrees
 .worktrees/
+
+# Python tutorial runtime artifacts
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.db
