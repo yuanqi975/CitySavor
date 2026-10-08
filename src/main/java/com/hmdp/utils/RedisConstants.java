@@ -10,6 +10,7 @@ public class RedisConstants {
 
     public static final Long CACHE_SHOP_TTL = 30L;
     public static final String CACHE_SHOP_KEY = "cache:shop:";
+    public static final String CACHE_SHOP_TYPE_KEY = "cache:shop:type";
 
     public static final String LOCK_SHOP_KEY = "lock:shop:";
     public static final Long LOCK_SHOP_TTL = 10L;
@@ -19,4 +20,9 @@ public class RedisConstants {
     public static final String FEED_KEY = "feed:";
     public static final String SHOP_GEO_KEY = "shop:geo:";
     public static final String USER_SIGN_KEY = "sign:";
+
+    public static final String AI_CHAT_CONTEXT_KEY = "ai:chat:context:";
+    public static final String AI_CHAT_RATE_LIMIT_KEY = "ai:chat:rate:";
+    public static final int AI_CHAT_CONTEXT_MESSAGE_LIMIT = 16;
+    public static final Long AI_CHAT_CONTEXT_TTL_DAYS = 30L;
 }

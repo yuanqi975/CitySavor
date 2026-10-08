@@ -1,0 +1,16 @@
+USE hmdp;
+
+CREATE TABLE IF NOT EXISTS tb_shop_comment (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
+  shop_id BIGINT UNSIGNED NOT NULL COMMENT '店铺 id',
+  user_id BIGINT UNSIGNED NOT NULL COMMENT '用户 id',
+  rating TINYINT UNSIGNED NOT NULL COMMENT '评分 1-5 星',
+  content VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '评论内容',
+  is_mock TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否为演示数据',
+  status TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '0 正常，1 举报，2 隐藏',
+  create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_shop_comment_shop_time (shop_id, create_time),
+  UNIQUE KEY uk_shop_comment_user_shop (user_id, shop_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='店铺评价';

@@ -39,7 +39,7 @@ public class CacheClient {
         redisData.setData(value);
         redisData.setExpireTime(LocalDateTime.now().plusSeconds(unit.toSeconds(time)));
         // 写入Redis
-        stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(redisData));
+        stringRedisTemplate.opsForValue().set(key, JSONUtil. toJsonStr(redisData));
     }
 
     public <R,ID> R queryWithPassThrough(

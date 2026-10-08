@@ -4,8 +4,11 @@ package com.hmdp.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hmdp.dto.Result;
+import com.hmdp.dto.ShopCommentCreateRequest;
 import com.hmdp.entity.Shop;
+import com.hmdp.service.IShopCommentService;
 import com.hmdp.service.IShopService;
+import com.hmdp.utils.UserHolder;
 import com.hmdp.utils.SystemConstants;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +27,8 @@ public class ShopController {
 
     @Resource
     public IShopService shopService;
+    @Resource
+    private IShopCommentService shopCommentService;
 
     /**
      * 根据id查询商铺信息
@@ -73,6 +78,35 @@ public class ShopController {
             @RequestParam(value = "y", required = false) Double y
     ) {
        return shopService.queryShopByType(typeId, current, x, y);
+    }
+
+    @GetMapping("/recommendations")
+    public Result queryRecommendations(
+            @RequestParam(value = "city", defaultValue = "xian") String city,
+            @RequestParam(value = "current", defaultValue = "1") Integer current,
+            @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize
+    ) {
+        if (!"xian".equalsIgnoreCase(city)) return Result.ok(java.util.Collections.emptyList());
+        int safeSize = Math.min(Math.max(pageSize, 1), 12);
+        Page<Shop> page = shopService.query().likeRight("address", "西安市")
+                .orderByDesc("id")
+                .page(new Page<>(Math.max(current, 1), safeSize));
+        return Result.ok(page.getRecords());
+    }
+
+    @GetMapping("/{shopId}/comments")
+    public Result queryShopComments(
+            @PathVariable Long shopId,
+            @RequestParam(value = "current", defaultValue = "1") Integer current,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize
+    ) {
+        return shopCommentService.queryComments(shopId, current, pageSize);
+    }
+
+    @PostMapping("/{shopId}/comments")
+    public Result createShopComment(@PathVariable Long shopId, @RequestBody ShopCommentCreateRequest request) {
+        if (UserHolder.getUser() == null) return Result.fail("请先登录");
+        return shopCommentService.createComment(shopId, UserHolder.getUser().getId(), request);
     }
 
     /**

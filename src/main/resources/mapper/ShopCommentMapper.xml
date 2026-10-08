@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hmdp.mapper.ShopCommentMapper">
+    <select id="selectPageWithUser" resultType="com.hmdp.dto.ShopCommentDTO">
+        SELECT c.id, c.user_id, u.nick_name, u.icon, c.rating, c.content,
+               UNIX_TIMESTAMP(c.create_time) * 1000 AS created_at
+        FROM tb_shop_comment c
+        INNER JOIN tb_user u ON u.id = c.user_id
+        WHERE c.shop_id = #{shopId} AND c.status = 0
+        <if test="rating != null">
+            AND c.rating = #{rating}
+        </if>
+        ORDER BY c.create_time DESC, c.id DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+</mapper>
