@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>HM DianPing Plus · 本地生活服务平台</h1>
+  <h1>CitySavor · 本地生活服务平台</h1>
   <p>
     <img src="https://img.shields.io/badge/Java-8-orange" alt="Java 8">
     <img src="https://img.shields.io/badge/Spring%20Boot-2.3.12-brightgreen" alt="Spring Boot">
